@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+    container_name: fireflyiii-local
+    ports:
+      - "80:8080"
+    volumes:
+      - firefly_iii_upload:/var/www/html/storage/upload
+    environment:
+      - APP_KEY=base64:8aifA98r1t77MBH2lyCy0gRqjcK4BmHOgd/x9YqrIAE=
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_CONNECTION=pgsql
+      - DB_DATABASE=firefly
+      - DB_USERNAME=firefly
+      - DB_PASSWORD=firefly
+
+  db:
+    image: postgres:15
+    container_name: fireflyiii-db
+    environment:
+      - POSTGRES_DB=firefly
+      - POSTGRES_USER=firefly
+      - POSTGRES_PASSWORD=firefly
+    volumes:
+      - firefly_db_data:/var/lib/postgresql/data
+
+volumes:
+  firefly_iii_upload:
+  firefly_db_data:
